@@ -13,15 +13,16 @@ import { ActivityPricing } from "@/components/activities/ActivityPricing";
 import { ActivityGallery } from "@/components/activities/ActivityGallery";
 import { ActivityFaqs } from "@/components/activities/ActivityFaqs";
 import { ActivityRelated } from "@/components/activities/ActivityRelated";
-import { useState, useEffect } from "react";
+import { useState, useEffect, use } from "react";
 import { Activity } from "@/lib/types";
 import { getActivityBySlug } from "@/lib/activities";
 
 interface ActivityPageClientProps {
-  params: { category: string; slug: string };
+  params: Promise<{ category: string; slug: string }>;
 }
 
 export default function ActivityPageClient({ params }: ActivityPageClientProps) {
+  const resolvedParams = use(params);
   const [activity, setActivity] = useState<Activity | null>(null);
   const [related, setRelated] = useState<Activity[]>([]);
   const [loading, setLoading] = useState(true);
@@ -29,7 +30,7 @@ export default function ActivityPageClient({ params }: ActivityPageClientProps) 
   useEffect(() => {
     let cancelled = false;
     setLoading(true);
-    getActivityBySlug(params.category, params.slug).then((data) => {
+    getActivityBySlug(resolvedParams.category, resolvedParams.slug).then((data) => {
       if (cancelled) return;
       setActivity(data);
       if (data) {
@@ -40,7 +41,7 @@ export default function ActivityPageClient({ params }: ActivityPageClientProps) 
     return () => {
       cancelled = true;
     };
-  }, [params.category, params.slug]);
+  }, [resolvedParams.category, resolvedParams.slug]);
 
   if (loading) {
     return (

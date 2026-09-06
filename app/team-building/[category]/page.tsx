@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, use } from "react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { QuoteModalWrapper } from "@/components/layout/QuoteModalWrapper";
@@ -10,15 +10,16 @@ import { getActivities } from "@/lib/activities";
 import { Activity } from "@/lib/types";
 
 interface CategoryPageClientProps {
-  params: { category: string };
+  params: Promise<{ category: string }>;
 }
 
 export default function CategoryPageClient({ params }: CategoryPageClientProps) {
+  const resolvedParams = use(params);
   const [activities, setActivities] = useState<Activity[]>([]);
 
   useEffect(() => {
-    getActivities(100, params.category).then(setActivities);
-  }, [params.category]);
+    getActivities(100, resolvedParams.category).then(setActivities);
+  }, [resolvedParams.category]);
 
   const titleMap: Record<string, string> = {
     "on-site-team-building": "On-site team building",
@@ -33,7 +34,7 @@ export default function CategoryPageClient({ params }: CategoryPageClientProps) 
         <section className="page-hero bg-navy text-white">
           <div className="mx-auto max-w-[1200px] px-4 sm:px-6 py-16 sm:py-24">
             <h1 className="text-4xl sm:text-5xl font-extrabold leading-tight">
-              {titleMap[params.category] || params.category.replace(/-/g, " ")}
+              {titleMap[resolvedParams.category] || resolvedParams.category.replace(/-/g, " ")}
             </h1>
             <p className="mt-4 text-lg text-white/80 max-w-2xl">
               {activities.length} {activities.length === 1 ? "activity" : "activities"} available.
