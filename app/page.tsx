@@ -1,3 +1,5 @@
+"use client";
+
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { QuoteModalWrapper } from "@/components/layout/QuoteModalWrapper";
@@ -12,6 +14,7 @@ import { About } from "@/components/homepage/About";
 import { Quiz } from "@/components/homepage/Quiz";
 import { Tips } from "@/components/homepage/Tips";
 import { Newsletter } from "@/components/homepage/Newsletter";
+import { useState, useEffect } from "react";
 import { gql } from "@/lib/graphql";
 import { Activity } from "@/lib/types";
 
@@ -59,8 +62,14 @@ query GetActivities {
 }
 `;
 
-export default async function HomePage() {
-  const { activities } = await gql<{ activities: { nodes: Activity[] } }>(ACTIVITIES_QUERY);
+export default function HomePage() {
+  const [activities, setActivities] = useState<Activity[]>([]);
+
+  useEffect(() => {
+    gql<{ activities: { nodes: Activity[] } }>(ACTIVITIES_QUERY)
+      .then((data) => setActivities(data.activities.nodes))
+      .catch(() => setActivities([]));
+  }, []);
 
   return (
     <>
@@ -70,7 +79,7 @@ export default async function HomePage() {
         <Clients />
         <Stats />
         <Science />
-        <Activities activities={activities.nodes} />
+        <Activities activities={activities} />
         <Locations />
         <About />
         <Quiz />
