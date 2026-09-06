@@ -148,18 +148,16 @@ export async function getActivityCategories() {
 }
 
 export async function getActivityBySlug(categorySlug: string, slug: string) {
-  // Fetch all activities and find by matching category path + slug
-  const all = await getActivities(100);
+  const all = await getActivities(200);
   const activity = all.find((a) => {
     const cats = a.categories || [];
-    const hasCategory = cats.some((c) => c.slug === categorySlug);
+    const hasCategory = cats.some((c) => c.slug === categorySlug || c.parent?.node?.slug === categorySlug);
     const hasSlug = a.slug === slug;
     return hasCategory && hasSlug;
   });
 
   if (!activity) return null;
 
-  // Fetch full details by ID
   const { activity: full } = await gql<{ activity: Activity }>(ACTIVITY_QUERY, { id: activity.id });
   return full;
 }
