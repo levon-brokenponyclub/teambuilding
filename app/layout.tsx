@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { QuoteModalWrapper } from "@/components/layout/QuoteModalWrapper";
 import { VideoModalWrapper } from "@/components/layout/VideoModalWrapper";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const poppins = localFont({
   src: [
@@ -33,6 +34,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         {children}
         <QuoteModalWrapper />
         <VideoModalWrapper />
+        <SpeedInsights />
       </body>
     </html>
   );
