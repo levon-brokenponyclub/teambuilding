@@ -10,6 +10,13 @@ export interface ActivityCategory {
   id: string;
   name: string;
   slug: string;
+  parent?: {
+    node: {
+      id: string;
+      name: string;
+      slug: string;
+    };
+  };
   parentId?: string;
 }
 
