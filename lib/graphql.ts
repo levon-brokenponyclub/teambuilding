@@ -1,4 +1,4 @@
-const WP_URL = process.env.NEXT_PUBLIC_WP_URL || "http://tb2026.local";
+const WP_URL = process.env.NEXT_PUBLIC_WP_URL || "https://wordpress-1603449-6657138.cloudwaysapps.com";
 
 export async function gql<T>(query: string, variables?: Record<string, unknown>): Promise<T> {
   const res = await fetch(`${WP_URL}/graphql`, {
