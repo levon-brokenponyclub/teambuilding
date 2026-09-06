@@ -1,0 +1,122 @@
+@import "tailwindcss";
+
+:root {
+  --lime: #66cc01;
+  --lime-600: #57ad00;
+  --lime-100: #eef9dd;
+  --navy: #000058;
+  --navy-700: #0a0a7a;
+  --navy-900: #04042e;
+  --ink: #141428;
+  --ink-2: #4b4b63;
+  --ink-3: #7c7c92;
+  --bg: #ffffff;
+  --bg-soft: #f6f7fb;
+  --line: #e6e8f0;
+  --radius: 22px;
+  --radius-sm: 14px;
+  --shadow: 0 10px 30px -12px rgb(0 0 88 / .18);
+  --shadow-lg: 0 30px 60px -20px rgb(0 0 88 / .28);
+  --font: var(--font-poppins), "Poppins Fallback", system-ui, sans-serif;
+  --wrap: 1200px;
+  --ease: cubic-bezier(.2,.8,.2,1);
+}
+
+@theme inline {
+  --color-lime: var(--lime);
+  --color-lime-600: var(--lime-600);
+  --color-lime-100: var(--lime-100);
+  --color-navy: var(--navy);
+  --color-navy-700: var(--navy-700);
+  --color-navy-900: var(--navy-900);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-ink-3: var(--ink-3);
+  --color-bg: var(--bg);
+  --color-bg-soft: var(--bg-soft);
+  --color-line: var(--line);
+  --font-sans: var(--font-poppins), "Poppins Fallback", system-ui, sans-serif;
+}
+
+@property --angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@property --progress {
+  syntax: "<percentage>";
+  initial-value: 0%;
+  inherits: false;
+}
+
+@keyframes scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes gauge-fill {
+  from { --progress: 0%; }
+  to { --progress: var(--gauge-target); }
+}
+
+.clients {
+  padding-block: 2.5rem;
+  border-block: 1px solid var(--line);
+  background: var(--bg-soft);
+}
+.clients p {
+  text-align: center;
+  font-size: 0.8rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--ink-3);
+  margin-bottom: 1.5rem;
+}
+.marquee {
+  overflow: hidden;
+  mask: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+  -webkit-mask: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+}
+.track {
+  display: flex;
+  gap: 3.5rem;
+  width: max-content;
+  animation: scroll 38s linear infinite;
+}
+.marquee:hover .track {
+  animation-play-state: paused;
+}
+.track img {
+  height: 56px;
+  width: auto;
+  filter: grayscale(1) contrast(1.05);
+  opacity: 0.7;
+  transition: 0.3s;
+}
+.track img:hover {
+  filter: none;
+  opacity: 1;
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font);
+}
+
+::selection {
+  background: var(--lime);
+  color: var(--navy);
+}
